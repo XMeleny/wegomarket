@@ -14,13 +14,13 @@ public class UserController {
     @Resource
     UserService userService;
 
-//    @RequestMapping("/")
-//    public String index(){
-//        return "redirect:/userList";
-//    }
+    @RequestMapping("/")
+    public String index(){
+        return "redirect:/userList";
+    }
 
     @RequestMapping("/userList")
-    public String list(Model model){
+    public String userList(Model model){
         List<User> users=userService.getUserList();
         model.addAttribute("users", users);
         return "user/userList";
@@ -58,13 +58,24 @@ public class UserController {
 
     @RequestMapping("/loginPage")
     public String loginPage(User user){
-        //todo find
-        return null;
+        return "user/loginPage";
     }
 
     @RequestMapping("/login")
-    public String login(User user){
-        //todo find
-        return null;
+    public String login(String email,String passWord){
+        User user=userService.findUserByEmail(email);
+        //邮箱存在，测试密码是否正确
+        if (user!=null)
+        {
+            //密码正确，登录成功
+            if(user.getPassWord().equals(passWord))
+                return "redirect:/userList";
+            else
+                return "user/loginPage";
+        }
+        //邮箱不存在，跳转到注册页面
+        else{
+            return "user/registerPage";
+        }
     }
 }

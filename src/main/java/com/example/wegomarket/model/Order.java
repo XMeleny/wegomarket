@@ -1,7 +1,5 @@
 package com.example.wegomarket.model;
 
-import org.springframework.stereotype.Controller;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -26,14 +24,12 @@ public class Order implements Serializable {
     private double total;
 
     @Column(nullable = false)
-    private double time;
-
-
+    private String time;
 
     public Order() {
     }
 
-    public Order(Long userId, String productIdList, String productAmountList, double total, double time) {
+    public Order(Long userId, String productIdList, String productAmountList, double total, String time) {
         this.userId = userId;
         this.productIdList = productIdList;
         this.productAmountList = productAmountList;
@@ -81,11 +77,11 @@ public class Order implements Serializable {
         this.total = total;
     }
 
-    public double getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(double time) {
+    public void setTime(String time) {
         this.time = time;
     }
 }

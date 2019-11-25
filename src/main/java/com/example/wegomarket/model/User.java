@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.*;
 import java.io.Serializable;
 
+//todo: 加密密码存储
 @Entity
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
