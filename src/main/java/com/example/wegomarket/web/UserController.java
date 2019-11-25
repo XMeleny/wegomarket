@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
-import javax.jws.WebParam;
 import java.util.List;
 
 @Controller
@@ -15,16 +14,16 @@ public class UserController {
     @Resource
     UserService userService;
 
-    @RequestMapping("/")
-    public String index(){
-        return "redirect:/list";
-    }
+//    @RequestMapping("/")
+//    public String index(){
+//        return "redirect:/userList";
+//    }
 
-    @RequestMapping("/list")
+    @RequestMapping("/userList")
     public String list(Model model){
         List<User> users=userService.getUserList();
         model.addAttribute("users", users);
-        return "user/list";
+        return "user/userList";
     }
 
     @RequestMapping("/registerPage")
@@ -35,13 +34,13 @@ public class UserController {
     @RequestMapping("/register")
     public String register(User user){
         userService.save(user);
-        return "redirect:/list";
+        return "redirect:/userList";
     }
 
     @RequestMapping("/delete")
     public String delete(long id){
         userService.delete(id);
-        return "redirect:/list";
+        return "redirect:/userList";
     }
 
     @RequestMapping("/editPage")
@@ -54,7 +53,13 @@ public class UserController {
     @RequestMapping("/edit")
     public String edit(User user){
         userService.edit(user);
-        return "redirect:/list";
+        return "redirect:/userList";
+    }
+
+    @RequestMapping("/loginPage")
+    public String loginPage(User user){
+        //todo find
+        return null;
     }
 
     @RequestMapping("/login")
