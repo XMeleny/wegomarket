@@ -14,11 +14,36 @@ public class ProductController {
     @Resource
     ProductService productService;
 
+    @RequestMapping("/")
+    public String index(){
+        return "redirect:/productList";
+    }
+
     @RequestMapping("/productList")
     public String productList(Model model){
         List<Product> products=productService.getProductList();
         model.addAttribute("products",products);
         return "product/productList";
+    }
+
+    @RequestMapping("/productListForAdmin")
+    public String productListForAdmin(Model model){
+        List<Product> products=productService.getProductList();
+        model.addAttribute("products",products);
+        return "product/productListForAdmin";
+    }
+
+    @RequestMapping("/addProduct")
+    public String addProduct(Product product)
+    {
+        productService.save(product);
+        return "redirect:/productListForAdmin";
+    }
+
+    @RequestMapping("/addProductPage")
+    public String addProductPage()
+    {
+        return "product/addProductPage";
     }
 
 
