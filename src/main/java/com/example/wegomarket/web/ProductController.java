@@ -61,8 +61,8 @@ public class ProductController {
         return"redirect:/productListForAdmin";
     }
 
-    @RequestMapping("deleteProdect")
-    public String deleteProdect(long id){
+    @RequestMapping("deleteProduct")
+    public String deleteProduct(long id){
         productService.delete(id);
         return"redirect:/productListForAdmin";
     }
