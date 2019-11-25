@@ -15,26 +15,28 @@ public class PurchaseServiceImpl implements PurchaseService {
 
     @Override
     public List<Purchase> getPurchase() {
-        return null;
+        return purchaseRepository.findAll();
     }
 
     @Override
     public List<Purchase> getPurchaseByUserId(long userId) {
-        return null;
+        return purchaseRepository.findByUserId(userId);
     }
 
     @Override
     public void save(Purchase purchase) {
+        purchaseRepository.save(purchase);
 
     }
 
     @Override
     public void delete(long id) {
-
+        purchaseRepository.deleteById(id);
     }
 
     @Override
     public void edit(Purchase purchase) {
-
+        //may be not useful
+        purchaseRepository.save(purchase);
     }
 }

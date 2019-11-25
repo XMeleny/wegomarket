@@ -15,26 +15,27 @@ public class ShoppingChartServiceImpl implements ShoppingChartService {
 
     @Override
     public List<ShoppingChart> getShoppingChart() {
-        return null;
+        return shoppingChartRepository.findAll();
     }
 
     @Override
     public List<ShoppingChart> getShoppingChartByUserId(long userId) {
-        return null;
+        return shoppingChartRepository.findByUserId(userId);
     }
 
     @Override
     public void save(ShoppingChart shoppingChart) {
-
+        shoppingChartRepository.save(shoppingChart);
     }
 
     @Override
     public void edit(ShoppingChart shoppingChart) {
-
+        shoppingChartRepository.save(shoppingChart);
     }
 
     @Override
-    public void delete(long Id) {
+    public void delete(long id) {
+        shoppingChartRepository.deleteById(id);
 
     }
 }

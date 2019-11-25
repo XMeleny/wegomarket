@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface PurchaseRepository  extends JpaRepository<Purchase, Long> {
     Purchase findById(long id);
+    List<Purchase> findByUserId(long userId);
     List<Purchase> findByPurchaseTime(String purchaseTime);
     void deleteById(long id);
 

@@ -10,6 +10,6 @@ public interface ShoppingChartService {
 
     public void save(ShoppingChart shoppingChart);
     public void edit(ShoppingChart shoppingChart);
-    public void delete(long Id);
+    public void delete(long id);
 
  }
