@@ -1,6 +1,5 @@
 package com.example.wegomarket.model;
 
-import javax.persistence.Entity;
 import javax.persistence.*;
 import java.io.File;
 import java.io.Serializable;

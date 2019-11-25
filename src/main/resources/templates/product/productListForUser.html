@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <title>商品列表-用户</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+</head>
+<body>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>商品名</th>
+                    <th>价格</th>
+                    <th>库存</th>
+                    <th>加购</th>
+                </tr>
+                </thead>
+
+                <tbody>
+<!--                todo！-->
+<!--                <tr  th:each="product : ${products}">-->
+<!--                    <th scope="row" th:text="${product.id}">这里是id</th>-->
+<!--                    <td th:text="${product.name}">这里是商品名</td>-->
+<!--                    <td th:text="${product.price}">这里是价格</td>-->
+<!--                    <td th:text="${product.stock}">这里是库存</td>-->
+<!--                    <td><a th:href="@{/editPage(id=${product.id})}">加入购物车</a></td>-->
+<!--                </tr>-->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <a href="/registerPage" th:href="@{/addProductPage}" class="btn btn-info">添加商品</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-public class Order implements Serializable {
+public class Purchase implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -24,17 +24,17 @@ public class Order implements Serializable {
     private double total;
 
     @Column(nullable = false)
-    private String time;
+    private String purchaseTime;
 
-    public Order() {
+    public Purchase() {
     }
 
-    public Order(Long userId, String productIdList, String productAmountList, double total, String time) {
+    public Purchase(Long userId, String productIdList, String productAmountList, double total, String purchaseTime) {
         this.userId = userId;
         this.productIdList = productIdList;
         this.productAmountList = productAmountList;
         this.total = total;
-        this.time = time;
+        this.purchaseTime = purchaseTime;
     }
 
     public Long getId() {
@@ -77,11 +77,11 @@ public class Order implements Serializable {
         this.total = total;
     }
 
-    public String getTime() {
-        return time;
+    public String getPurchaseTime() {
+        return purchaseTime;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setPurchaseTime(String purchaseTime) {
+        this.purchaseTime = purchaseTime;
     }
 }
