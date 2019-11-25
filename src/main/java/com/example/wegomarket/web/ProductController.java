@@ -46,5 +46,20 @@ public class ProductController {
         return "product/addProductPage";
     }
 
+    @RequestMapping("/editProductPage")
+    public String editProductPage(Model model,long id)
+    {
+        Product product=productService.findProductById(id);
+        model.addAttribute("product",product);
+        return "product/editProductPage";
+    }
+
+    @RequestMapping("/editProduct")
+    public String editProduct(Product product)
+    {
+        productService.save(product);
+        return"redirect:/productListForAdmin";
+    }
+
 
 }
