@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>this is edit page</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+</head>
+<body>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <form class="form-horizontal" role="form" th:action="@{/edit}" method="post">
+                <input type="hidden" name="id" th:value="${user.id}" />
+                <div class="form-group">
+                    <label for="email" class="col-sm-2 control-label">邮箱</label>
+                    <div class="col-sm-10">
+                        <input type="email" class="form-control" id="email" name="email" data-th-value="${user.email}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="nickName" class="col-sm-2 control-label" >昵称</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="nickName" name="nickName" data-th-value="${user.nickName}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="passWord" class="col-sm-2 control-label">密码</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="passWord" name="passWord"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="repeat_password" class="col-sm-2 control-label">重复密码</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="repeat_password"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input type="submit" class="btn btn-default"/>
+                        <a th:href="@{/list}" class="btn btn-info">返回</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
