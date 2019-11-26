@@ -40,27 +40,45 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>编号</th>
-<!--            <th>商品名</th>-->
+            <th >编号</th>
+<!--            <th hidden>编号</th>-->
+            <th>选购</th>
             <th>商品编号</th>
-<!--            <th>价格</th>-->
+            <th>商品名</th>
+            <th>价格</th>
             <th>数量</th>
+            <th>总价</th>
 <!--            <th>操作</th>-->
         </tr>
         </thead>
 
-        <tbody>
-        <tr  th:each="shoppingChart : ${shoppingCharts}">
-            <th scope="row" th:text="${shoppingChart.id}">id here</th>
-            <td th:text="${shoppingChart.productId}">productId here</td>
-<!--            todo: change productId into productName-->
-            <td th:text="${shoppingChart.amount}">amount here</td>
-<!--            todo: add price or total here-->
-<!--            <td><a th:href="@{/addShoppingChart(productId=${shoppingChart.id},userId=${userId},amount=1)}">加入购物车</a></td>-->
-        </tr>
-        </tbody>
+        <form th:action="@{/addPurchase}" method="post" onsubmit="return judge()">
+            <tbody>
+
+            <tr  th:each="item: ${map}">
+                <!--            key is shopping chart, value is product-->
+<!--                <th hidden scope="row" th:text="${item.key.id}">shoppingChartId here</th>-->
+                <th  scope="row" th:text="${item.key.id}">shoppingChartId here</th>
+                <td><input name="shoppingChartIds" type="checkbox" th:value="${item.key.id}" /></td>
+                <td th:text="${item.value.id}">productId here</td>
+                <td th:text="${item.value.name}">productName here</td>
+                <td th:text="${item.value.price}">productPrice here</td>
+                <td th:text="${item.key.amount}">shoppingChartAmount here</td>
+                <td th:text="${item.value.price*item.key.amount}">total here</td>
+            </tr>
+
+            </tbody>
+            <button type="submit" >下单</button>
+        </form>
     </table>
 </div>
+
+<script>
+    function judge(){
+        //if purchase is null return false
+    }
+
+</script>
 
 </body>
 </html>

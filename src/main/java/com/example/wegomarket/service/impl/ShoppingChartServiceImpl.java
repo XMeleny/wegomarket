@@ -19,6 +19,11 @@ public class ShoppingChartServiceImpl implements ShoppingChartService {
     }
 
     @Override
+    public ShoppingChart getShoppingChartById(long id) {
+        return shoppingChartRepository.findById(id);
+    }
+
+    @Override
     public List<ShoppingChart> getShoppingChartListByUserId(long userId) {
         return shoppingChartRepository.findByUserId(userId);
     }
