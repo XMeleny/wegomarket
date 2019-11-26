@@ -37,8 +37,6 @@ public class ShoppingChartController {
             shoppingChartService.save(shoppingChart);
         }
 
-        //todo: modify the save, when the userId&productId are the same,
-        //todo: the record should not be added, but the amount should be increased
         redirectAttributes.addAttribute("userId",shoppingChart.getUserId());
         return "redirect:/productListForUser";
     }

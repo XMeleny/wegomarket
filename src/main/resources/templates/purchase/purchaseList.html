@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" >
-    <title>商品总表-管理员</title>
+    <meta charset="UTF-8">
+    <title>订单列表</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
 </head>
 <body>
-<div class="container">
+<div class="container" style="margin-top: 60px">
+<!--    导航栏-->
     <div class="row clearfix">
         <div class="col-md-12 column">
-
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="#">WeGoMarket</a>
@@ -18,7 +18,7 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a th:href="@{/purchaseList}">订单列表</a>
+                            <a th:href="@{/productListForAdmin}">商品列表</a>
                         </li>
                     </ul>
                 </div>
@@ -27,35 +27,43 @@
 
         </div>
     </div>
-    <div class="row clearfix" style="margin-top: 60px">
+
+
+
+<!--    订单列表-->
+    <div class="row clearfix">
         <div class="col-md-12 column">
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>商品编号</th>
-                    <th>商品名</th>
-                    <th>价格</th>
-                    <th>库存</th>
-                    <th>编辑</th>
-                    <th>删除</th>
+                    <th>编号</th>
+                    <th>用户编号</th>
+                    <th>购买时间</th>
+                    <th>商品编号列表</th>
+                    <th>商品数量列表</th>
+                    <th>总价</th>
                 </tr>
                 </thead>
 
-                <tbody>
-                <tr  th:each="product : ${products}">
-                    <th scope="row" th:text="${product.id}">id here</th>
-                    <td th:text="${product.name}">name here</td>
-                    <td th:text="${product.price}">price here</td>
-                    <td th:text="${product.stock}">stock here</td>
-                    <td><a th:href="@{/editProductPage(id=${product.id})}">edit</a></td>
-                    <td><a th:href="@{/deleteProduct(id=${product.id})}">delete</a></td>
-                </tr>
-                </tbody>
-            </table>
+                    <tbody>
+                    <tr th:each="purchase: ${purchases}">
+                        <th  scope="row" th:text="${purchase.id}">purchaseId here</th>
+                        <td th:text="${purchase.userId}">userId here</td>
+                        <td th:text="${purchase.purchaseTime}">purchaseTime here</td>
+                        <td th:text="${purchase.productIdList}">productIdList here</td>
+                        <td th:text="${purchase.productAmountList}">productAmountList here</td>
+                        <td th:text="${purchase.total}">total here</td>
+                    </tr>
 
-            <a href="/registerPage" th:href="@{/addProductPage}" class="btn btn-info">添加商品</a>
+                    </tbody>
+
+            </table>
         </div>
     </div>
+
+
+
+
 </div>
 
 </body>
