@@ -1,6 +1,7 @@
 package com.example.wegomarket.web;
 
 import com.example.wegomarket.model.Product;
+import com.example.wegomarket.model.User;
 import com.example.wegomarket.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +32,14 @@ public class ProductController {
         List<Product> products=productService.getProductList();
         model.addAttribute("products",products);
         return "product/productListForAdmin";
+    }
+
+    @RequestMapping("/productListForUser")
+    public String productListForUser(Model model, long userId){
+        List<Product> products=productService.getProductList();
+        model.addAttribute("products",products);
+        model.addAttribute("userId",userId);
+        return "product/productListForUser";
     }
 
     @RequestMapping("/addProduct")
@@ -66,6 +75,8 @@ public class ProductController {
         productService.delete(id);
         return"redirect:/productListForAdmin";
     }
+
+
 
 
 }
