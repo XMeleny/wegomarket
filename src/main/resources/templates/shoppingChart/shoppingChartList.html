@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <title>购物车</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
 </head>
 <body>
 <p>这里是购物车哦！</p>
 
 <div class="container">
 
-<!--    导航栏-->
+    <!--    导航栏-->
     <div class="row clearfix">
         <div class="col-md-12 column">
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -31,7 +32,7 @@
         </div>
     </div>
 
-<!--购物车列表！-->
+    <!--购物车列表！-->
     <div class="row clearfix" style="margin-top: 60px">
         <div class="col-md-12 column">
         </div>
@@ -41,25 +42,25 @@
         <thead>
         <tr>
             <th >编号</th>
-<!--            <th hidden>编号</th>-->
+            <!--            <th hidden>编号</th>-->
             <th>选购</th>
             <th>商品编号</th>
             <th>商品名</th>
             <th>价格</th>
             <th>数量</th>
             <th>总价</th>
-<!--            <th>操作</th>-->
+            <!--            <th>操作</th>-->
         </tr>
         </thead>
 
-        <form th:action="@{/addPurchase}" method="post" onsubmit="return judge()">
+        <form th:action="@{/addPurchase}" id="theForm" method="post" onsubmit="return judge()">
             <tbody>
 
             <tr  th:each="item: ${map}">
                 <!--            key is shopping chart, value is product-->
-<!--                <th hidden scope="row" th:text="${item.key.id}">shoppingChartId here</th>-->
+                <!--                <th hidden scope="row" th:text="${item.key.id}">shoppingChartId here</th>-->
                 <th  scope="row" th:text="${item.key.id}">shoppingChartId here</th>
-                <td><input name="shoppingChartIds" type="checkbox" th:value="${item.key.id}" /></td>
+                <td><input name="shoppingChartIds" type="checkbox" th:value="${item.key.id} " /></td>
                 <td th:text="${item.value.id}">productId here</td>
                 <td th:text="${item.value.name}">productName here</td>
                 <td th:text="${item.value.price}">productPrice here</td>
@@ -68,17 +69,24 @@
             </tr>
 
             </tbody>
-            <button type="submit" >下单</button>
+            <button type="submit" class="btn btn-default">下单</button>
         </form>
     </table>
 </div>
 
-<script>
-    function judge(){
-        //if purchase is null return false
-    }
 
+<script>
+    function judge() {
+        let checkBoxes=$("input[name='shoppingChartIds']");
+        for(let i=0;i<checkBoxes.length;i++){
+            if(checkBoxes[i].checked){
+                return true;
+            }
+        }
+        return false;
+    }
 </script>
+
 
 </body>
 </html>
