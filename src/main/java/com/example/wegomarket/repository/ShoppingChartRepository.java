@@ -9,6 +9,7 @@ public interface ShoppingChartRepository extends JpaRepository<ShoppingChart, Lo
     ShoppingChart findById(long id);
     List<ShoppingChart> findByUserId(long userId);
     void deleteById(long id);
+    ShoppingChart findByUserIdAndProductId(long userId,long productId);
 
 
 }

@@ -14,13 +14,18 @@ public class ShoppingChartServiceImpl implements ShoppingChartService {
     private ShoppingChartRepository shoppingChartRepository;
 
     @Override
-    public List<ShoppingChart> getShoppingChart() {
+    public List<ShoppingChart> getShoppingChartList() {
         return shoppingChartRepository.findAll();
     }
 
     @Override
-    public List<ShoppingChart> getShoppingChartByUserId(long userId) {
+    public List<ShoppingChart> getShoppingChartListByUserId(long userId) {
         return shoppingChartRepository.findByUserId(userId);
+    }
+
+    @Override
+    public ShoppingChart getShoppingChartByUserIdAndProductId(long userId, long productId) {
+        return shoppingChartRepository.findByUserIdAndProductId(userId,productId);
     }
 
     @Override

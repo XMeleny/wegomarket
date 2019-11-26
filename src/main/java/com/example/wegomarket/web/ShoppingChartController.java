@@ -1,11 +1,11 @@
 package com.example.wegomarket.web;
 
 import com.example.wegomarket.model.ShoppingChart;
-import com.example.wegomarket.repository.ShoppingChartRepository;
 import com.example.wegomarket.service.ShoppingChartService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
@@ -16,17 +16,28 @@ public class ShoppingChartController {
     @Resource
     ShoppingChartService shoppingChartService;
 
-    @RequestMapping("/addShoppingChart")
+    @RequestMapping(value = "/addShoppingChart")
     public String addShoppingChart(ShoppingChart shoppingChart, RedirectAttributes redirectAttributes)
     {
-        shoppingChartService.save(shoppingChart);
+        ShoppingChart originShoppingChart=shoppingChartService.getShoppingChartByUserIdAndProductId(shoppingChart.getUserId(),shoppingChart.getProductId());
+        if(originShoppingChart!=null)
+        {
+            originShoppingChart.setAmount(originShoppingChart.getAmount()+1);
+            shoppingChartService.save(originShoppingChart);
+        }
+        else{
+            shoppingChartService.save(shoppingChart);
+        }
+
+        //todo: modify the save, when the userId&productId are the same,
+        //todo: the record should not be added, but the amount should be increased
         redirectAttributes.addAttribute("userId",shoppingChart.getUserId());
         return "redirect:/productListForUser";
     }
 
-    @RequestMapping("/shoppingChartList")
+    @RequestMapping(value = "/shoppingChartList")
     public String shoppingChartList(Model model, long userId){
-        List<ShoppingChart> shoppingCharts=shoppingChartService.getShoppingChartByUserId(userId);
+        List<ShoppingChart> shoppingCharts=shoppingChartService.getShoppingChartListByUserId(userId);
         model.addAttribute("shoppingCharts" ,shoppingCharts);
         model.addAttribute("userId",userId);
         return "shoppingChart/shoppingChartList";

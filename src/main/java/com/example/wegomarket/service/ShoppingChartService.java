@@ -5,8 +5,9 @@ import com.example.wegomarket.model.ShoppingChart;
 import java.util.List;
 
 public interface ShoppingChartService {
-    public List<ShoppingChart> getShoppingChart();
-    public List<ShoppingChart> getShoppingChartByUserId(long userId);
+    public List<ShoppingChart> getShoppingChartList();
+    public List<ShoppingChart> getShoppingChartListByUserId(long userId);
+    public ShoppingChart getShoppingChartByUserIdAndProductId(long userId,long productId);
 
     public void save(ShoppingChart shoppingChart);
     public void edit(ShoppingChart shoppingChart);
