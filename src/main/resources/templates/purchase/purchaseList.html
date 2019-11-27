@@ -57,6 +57,8 @@
                     <th>商品编号列表</th>
                     <th>商品数量列表</th>
                     <th>总价</th>
+                    <th>验证码</th>
+                    <th>是否完成</th>
                 </tr>
                 </thead>
 
@@ -68,6 +70,8 @@
                         <td th:text="${purchase.productIdList}">productIdList here</td>
                         <td th:text="${purchase.productAmountList}">productAmountList here</td>
                         <td th:text="${purchase.total}">total here</td>
+                        <td th:text="${purchase.checkCode}">checkCode here</td>
+                        <td th:text="${purchase.ok}">ok here</td>
                     </tr>
 
                     </tbody>

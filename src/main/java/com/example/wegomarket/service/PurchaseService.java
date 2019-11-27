@@ -8,6 +8,7 @@ import java.util.List;
 public interface PurchaseService {
     public List<Purchase> getPurchase();
     public List<Purchase> getPurchaseByUserId(long userId);
+    public Purchase getPurchaseById(long id);
 
     public void save(Purchase purchase);
     public void delete(long id);

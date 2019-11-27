@@ -14,6 +14,11 @@ public class PurchaseServiceImpl implements PurchaseService {
     private PurchaseRepository purchaseRepository;
 
     @Override
+    public Purchase getPurchaseById(long id) {
+        return purchaseRepository.findById(id);
+    }
+
+    @Override
     public List<Purchase> getPurchase() {
         return purchaseRepository.findAll();
     }
