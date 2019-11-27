@@ -9,6 +9,7 @@ import com.example.wegomarket.service.ShoppingChartService;
 import org.apache.tomcat.util.buf.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -33,6 +34,8 @@ public class PurchaseController {
     @RequestMapping("/addPurchase")
     public String addPurchase(@RequestParam("shoppingChartIds") List<String> shoppingChartIds, RedirectAttributes redirectAttributes)
     {
+        //todo：邮箱验证，先减库存，验证不成功（超时则加上库存，避免验证成功却无库存可减）
+        //todo：purchase表一定要改的
         //before requesting, shoppingChartIds is not null
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -109,7 +112,19 @@ public class PurchaseController {
             }
         }
         return "redirect:/productList";
+    }
 
+    @RequestMapping("/purchaseListForUser")
+    public String purchaseListForUser(@ModelAttribute("userId") long userId,Model model){
+        model.addAttribute("userId",userId);
+        model.addAttribute("purchases",purchaseService.getPurchaseByUserId(userId));
+        return "purchase/purchaseListForUser";
+    }
 
+    @RequestMapping("checkPurchase")
+    public String checkPurchase(long userId,long checkCode )
+    {
+        //todo
+        return null;
     }
 }

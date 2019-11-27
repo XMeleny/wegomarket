@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" >
-    <title>商品列表-用户</title>
+    <meta charset="UTF-8">
+    <title>订单列表</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
 </head>
 <body>
+
 <div class="container">
     <!--    导航栏-->
     <div class="row clearfix">
@@ -18,7 +19,10 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a href="#">选购</a>
+                            <form id="checkProductListForm" th:action="@{/productListForUser}" method="post">
+                                <input hidden name="userId" th:value="${userId}">
+                            </form>
+                            <a href="#" onclick="document.getElementById('checkProductListForm').submit();">选购</a>
                         </li>
                         <li>
                             <form id="checkShoppingChartForm" th:action="@{/shoppingChartList}" method="post">
@@ -27,10 +31,7 @@
                             <a href="#" onclick="document.getElementById('checkShoppingChartForm').submit();">查看购物车</a>
                         </li>
                         <li>
-                            <form id="checkPurchaseForm" th:action="@{/purchaseListForUser}" method="post">
-                                <input hidden name="userId" th:value="${userId}">
-                            </form>
-                            <a href="#" onclick="document.getElementById('checkPurchaseForm').submit();">查看订单</a>
+                            <a href="#" >查看订单</a>
                         </li>
                         <li>
                             <a href="#">修改信息</a>
@@ -53,20 +54,23 @@
                 <thead>
                 <tr>
                     <th>编号</th>
-                    <th>商品名</th>
-                    <th>价格</th>
-                    <th>库存</th>
-                    <th>加购</th>
+                    <th>商品编号列表</th>
+                    <th>商品数量列表</th>
+                    <th>总价</th>
+                    <th>购买时间</th>
+                    <th>完成</th>
                 </tr>
                 </thead>
 
                 <tbody>
-                <tr  th:each="product : ${products}">
-                    <th scope="row" th:text="${product.id}">id here</th>
-                    <td th:text="${product.name}">name here</td>
-                    <td th:text="${product.price}">price here</td>
-                    <td th:text="${product.stock}">stock here</td>
-                    <td><a th:href="@{/addShoppingChart(productId=${product.id},userId=${userId},amount=1)}">加入购物车</a></td>
+                <tr  th:each="purchase : ${purchases}">
+                    <th scope="row" th:text="${purchase.id}"></th>
+                    <td th:text="${purchase.productIdList}"></td>
+                    <td th:text="${purchase.productAmountList}"></td>
+                    <td th:text="${purchase.total}"></td>
+                    <td th:text="${purchase.purchaseTime}"></td>
+                    <td th:text="${purchase.ok}"> </td>
+<!--                    <td><a th:href="@{/addShoppingChart(productId=${product.id},userId=${userId},amount=1)}">验证订单</a></td>-->
                 </tr>
                 </tbody>
             </table>

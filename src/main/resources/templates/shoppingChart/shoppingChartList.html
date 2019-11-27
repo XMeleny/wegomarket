@@ -20,13 +20,22 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <form id="checkProductListForm" th:action="@{/productListForUser}" method="post">
-                                <input hidden name="userId" th:value="${userId}">
-                            </form>
-                            <a href="#" onclick="document.getElementById('checkProductListForm').submit();">选购</a>
-                        </li>
+                        <form id="checkProductListForm" th:action="@{/productListForUser}" method="post">
+                            <input hidden name="userId" th:value="${userId}">
+                        </form>
+                        <a href="#" onclick="document.getElementById('checkProductListForm').submit();">选购</a>
+                    </li>
                         <li>
                             <a href="#">查看购物车</a>
+                        </li>
+                        <li>
+                            <form id="checkPurchaseForm" th:action="@{/purchaseListForUser}" method="post">
+                                <input hidden name="userId" th:value="${userId}">
+                            </form>
+                            <a href="#" onclick="document.getElementById('checkPurchaseForm').submit();">查看订单</a>
+                        </li>
+                        <li>
+                            <a href="#">修改信息</a>
                         </li>
                         <li>
                             <a th:href="@{/}">注销</a>
@@ -70,9 +79,10 @@
                     </tr>
 
                     </tbody>
-                    <button type="submit" class="btn btn-default">下单</button>
                 </form>
             </table>
+            <button onclick="document.getElementById('theForm').submit();" class="btn btn-default">下单</button>
+            <button id="deleteButton" onclick="" class="btn btn-default">删除</button>
         </div>
     </div>
 
@@ -89,6 +99,11 @@
             }
         }
         return false;
+    }
+
+    $("deleteButton").onclick=function () {
+        //todo
+        //how to delete?
     }
 </script>
 

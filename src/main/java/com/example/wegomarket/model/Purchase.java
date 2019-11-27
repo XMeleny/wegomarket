@@ -26,15 +26,23 @@ public class Purchase implements Serializable {
     @Column(nullable = false)
     private String purchaseTime;
 
+    @Column()
+    private String checkCode;
+
+    @Column()
+    private boolean ok;
+
     public Purchase() {
     }
 
-    public Purchase(Long userId, String productIdList, String productAmountList, double total, String purchaseTime) {
+    public Purchase(Long userId, String productIdList, String productAmountList, double total, String purchaseTime, String checkCode, boolean ok) {
         this.userId = userId;
         this.productIdList = productIdList;
         this.productAmountList = productAmountList;
         this.total = total;
         this.purchaseTime = purchaseTime;
+        this.checkCode = checkCode;
+        this.ok = ok;
     }
 
     public Long getId() {
@@ -83,5 +91,21 @@ public class Purchase implements Serializable {
 
     public void setPurchaseTime(String purchaseTime) {
         this.purchaseTime = purchaseTime;
+    }
+
+    public String getCheckCode() {
+        return checkCode;
+    }
+
+    public void setCheckCode(String checkCode) {
+        this.checkCode = checkCode;
+    }
+
+    public boolean isOk() {
+        return ok;
+    }
+
+    public void setOk(boolean ok) {
+        this.ok = ok;
     }
 }

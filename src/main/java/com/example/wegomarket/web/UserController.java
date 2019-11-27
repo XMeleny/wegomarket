@@ -55,8 +55,9 @@ public class UserController {
     }
 
     @RequestMapping("/register")
-    public String register(User user){
+    public String register(User user,RedirectAttributes redirectAttributes){
         userService.save(user);
+        redirectAttributes.addFlashAttribute("userId",user.getId());
         return "redirect:/productListForUser";
     }
 
