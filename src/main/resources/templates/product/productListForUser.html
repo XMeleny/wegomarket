@@ -18,7 +18,16 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a th:href="@{/shoppingChartList(userId=${userId})}">查看购物车</a>
+                            <a href="#">选购</a>
+                        </li>
+                        <li>
+                            <form id="checkShoppingChartForm" th:action="@{/shoppingChartList}" method="post">
+                                <input hidden name="userId" th:value="${userId}">
+                            </form>
+                            <a href="#" onclick="document.getElementById('checkShoppingChartForm').submit();">查看购物车</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/}">注销</a>
                         </li>
                     </ul>
                 </div>

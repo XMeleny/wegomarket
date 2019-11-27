@@ -93,15 +93,23 @@ public class PurchaseController {
         }
         //todo :else alert the stock is not enough
 
-        redirectAttributes.addAttribute("userId",userId);
+        redirectAttributes.addFlashAttribute("userId",userId);
         return "redirect:/productListForUser";
 
     }
 
     @RequestMapping("/purchaseList")
-    public String purchaseList(Model model)
+    public String purchaseList(Model model,String adminName)
     {
-        model.addAttribute("purchases",purchaseService.getPurchase());
-        return "purchase/purchaseList";
+        if (adminName!=null)        {
+            if(adminName.equals("admin")){
+                model.addAttribute("purchases",purchaseService.getPurchase());
+                model.addAttribute("adminName","admin");
+                return "purchase/purchaseList";
+            }
+        }
+        return "redirect:/productList";
+
+
     }
 }

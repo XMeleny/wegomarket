@@ -20,7 +20,16 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a th:href="@{/productListForUser(userId=${userId})}">选购</a>
+                            <form id="checkProductListForm" th:action="@{/productListForUser}" method="post">
+                                <input hidden name="userId" th:value="${userId}">
+                            </form>
+                            <a href="#" onclick="document.getElementById('checkProductListForm').submit();">选购</a>
+                        </li>
+                        <li>
+                            <a href="#">查看购物车</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/}">注销</a>
                         </li>
                     </ul>
                 </div>
@@ -37,14 +46,12 @@
                 <thead>
                 <tr>
                     <th >编号</th>
-                    <!--            <th hidden>编号</th>-->
                     <th>选购</th>
                     <th>商品编号</th>
                     <th>商品名</th>
                     <th>价格</th>
                     <th>数量</th>
                     <th>总价</th>
-                    <!--            <th>操作</th>-->
                 </tr>
                 </thead>
 
@@ -52,8 +59,7 @@
                     <tbody>
 
                     <tr  th:each="item: ${map}">
-                        <!--            key is shopping chart, value is product-->
-                        <!--                <th hidden scope="row" th:text="${item.key.id}">shoppingChartId here</th>-->
+                        <!-- key is shopping chart, value is product-->
                         <th  scope="row" th:text="${item.key.id}">shoppingChartId here</th>
                         <td><input name="shoppingChartIds" type="checkbox" th:value="${item.key.id} " /></td>
                         <td th:text="${item.value.id}">productId here</td>

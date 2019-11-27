@@ -24,7 +24,7 @@ public class ShoppingChartController {
     @Resource
     ProductService productService;
 
-    @RequestMapping(value = "/addShoppingChart")
+    @RequestMapping(value = "/addShoppingChart" )
     public String addShoppingChart(ShoppingChart shoppingChart, RedirectAttributes redirectAttributes)
     {
         ShoppingChart originShoppingChart=shoppingChartService.getShoppingChartByUserIdAndProductId(shoppingChart.getUserId(),shoppingChart.getProductId());
@@ -37,7 +37,7 @@ public class ShoppingChartController {
             shoppingChartService.save(shoppingChart);
         }
 
-        redirectAttributes.addAttribute("userId",shoppingChart.getUserId());
+        redirectAttributes.addFlashAttribute("userId",shoppingChart.getUserId());
         return "redirect:/productListForUser";
     }
 

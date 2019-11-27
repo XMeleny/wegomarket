@@ -15,11 +15,38 @@ public class UserController {
     @Resource
     UserService userService;
 
+    @RequestMapping("/admin")
+    public String admin()
+    {
+        return "user/admin";
+    }
+
+    @RequestMapping("/adminLogin")
+    public String adminLogin(Model model,String adminName,String passWord,RedirectAttributes redirectAttributes)
+    {
+        if(adminName.equals("admin")&&passWord.equals("admin"))
+        {
+//            model.addAttribute("adminName","admin");
+            redirectAttributes.addFlashAttribute("adminName","admin");
+            return "redirect:/productListForAdmin";
+            //一定要用redirect，为啥？
+        }
+        //todo：notify that the adminName or passWord is wrong
+        return "user/admin";
+    }
+
     @RequestMapping("/userList")
-    public String userList(Model model){
-        List<User> users=userService.getUserList();
-        model.addAttribute("users", users);
-        return "user/userList";
+    public String userList(Model model,String adminName){
+        if (adminName!=null) {
+            if(adminName.equals("admin")) {
+                List<User> users=userService.getUserList();
+                model.addAttribute("users", users);
+                model.addAttribute("adminName","admin");
+                return "user/userList";
+            }
+        }
+        return "redirect:/productList";
+
     }
 
     @RequestMapping("/registerPage")
@@ -65,7 +92,7 @@ public class UserController {
         {
             //密码正确，登录成功
             if(user.getPassWord().equals(passWord)) {
-                redirectAttributes.addAttribute("userId",user.getId());
+                redirectAttributes.addFlashAttribute("userId",user.getId());
                 return "redirect:/productListForUser";//how to add para in navigation
             }
             else

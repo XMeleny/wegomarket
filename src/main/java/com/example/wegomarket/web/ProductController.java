@@ -5,6 +5,7 @@ import com.example.wegomarket.model.User;
 import com.example.wegomarket.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
@@ -28,14 +29,19 @@ public class ProductController {
     }
 
     @RequestMapping("/productListForAdmin")
-    public String productListForAdmin(Model model){
-        List<Product> products=productService.getProductList();
-        model.addAttribute("products",products);
-        return "product/productListForAdmin";
+    public String productListForAdmin(Model model, @ModelAttribute("adminName") String adminName){
+        if(adminName.equals("admin")){
+            List<Product> products=productService.getProductList();
+            model.addAttribute("products",products);
+            model.addAttribute("adminName","admin");
+            return "product/productListForAdmin";
+        }
+        else return "redirect:/productList";
+
     }
 
     @RequestMapping("/productListForUser")
-    public String productListForUser(Model model, long userId){
+    public String productListForUser(Model model, @ModelAttribute("userId") long userId){
         List<Product> products=productService.getProductList();
         model.addAttribute("products",products);
         model.addAttribute("userId",userId);
