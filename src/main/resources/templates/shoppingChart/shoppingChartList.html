@@ -78,7 +78,11 @@
                         <td th:text="${item.value.id}">productId here</td>
                         <td th:text="${item.value.name}">productName here</td>
                         <td th:text="${item.value.price}">productPrice here</td>
-                        <td th:text="${item.key.amount}">shoppingChartAmount here</td>
+                        <td>
+                            <a href="#" th:href="@{/decreaseAmount(shoppingChartId=${item.key.id})}">-</a>
+                            <p th:text="${item.key.amount}"></p>
+                            <a href="#" th:href="@{/increaseAmount(shoppingChartId=${item.key.id})}">+</a>
+                        </td>
                         <td th:text="${item.value.price*item.key.amount}">total here</td>
                         <td>
                             <a th:href="@{/deleteShoppingChart(shoppingChartId=${item.key.id},userId=${userId})}">delete</a>

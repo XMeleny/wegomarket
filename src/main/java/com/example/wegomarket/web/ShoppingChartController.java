@@ -62,4 +62,33 @@ public class ShoppingChartController {
         return "redirect:/shoppingChartList";
     }
 
+    //最小值为1
+    @RequestMapping("/decreaseAmount")
+    public String decreaseAmount(long shoppingChartId,RedirectAttributes redirectAttributes){
+        ShoppingChart shoppingChart=shoppingChartService.getShoppingChartById(shoppingChartId);
+        int amount=shoppingChart.getAmount();
+        if(amount>1){
+            shoppingChart.setAmount(amount-1);
+            shoppingChartService.save(shoppingChart);
+        }
+        redirectAttributes.addFlashAttribute("userId",shoppingChart.getUserId());
+        return "redirect:/shoppingChartList";
+
+    }
+
+    //最大值为stock
+    @RequestMapping("/increaseAmount")
+    public String increaseAmount(long shoppingChartId,RedirectAttributes redirectAttributes){
+        ShoppingChart shoppingChart=shoppingChartService.getShoppingChartById(shoppingChartId);
+        int amount=shoppingChart.getAmount();
+        int stock=productService.findProductById(shoppingChart.getProductId()).getStock();
+        if(amount<stock)
+        {
+            shoppingChart.setAmount(amount+1);
+            shoppingChartService.save(shoppingChart);
+        }
+        redirectAttributes.addFlashAttribute("userId",shoppingChart.getUserId());
+        return "redirect:/shoppingChartList";
+    }
+
 }

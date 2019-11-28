@@ -50,11 +50,10 @@ public class PurchaseController {
     @RequestMapping("/addPurchase")
     public String addPurchase(@RequestParam("shoppingChartIds") List<String> shoppingChartIds, RedirectAttributes redirectAttributes)
     {
-        //todo：邮箱验证，先减库存，验证不成功（超时则加上库存，避免验证成功却无库存可减）
-        //todo：生成验证码
-        //before requesting, shoppingChartIds is not null
+        //todo：超时订单删除，加上库存
 
-        //将信息填好，并减少库存
+        //进行操作之前已经保证shoppingChartIds不为空
+        //将信息填好
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String purchaseTime=formatter.format(new Date());
 
@@ -137,7 +136,7 @@ public class PurchaseController {
 
         else{
             System.out.println("库存不够哦！");
-            //todo :else alert the stock is not enough
+            //todo :提示库存不够
         }
 
         redirectAttributes.addFlashAttribute("userId",userId);

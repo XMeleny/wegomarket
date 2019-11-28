@@ -1,6 +1,10 @@
 package com.example.wegomarket.web;
 
+import com.example.wegomarket.model.Product;
+import com.example.wegomarket.model.Purchase;
 import com.example.wegomarket.model.User;
+import com.example.wegomarket.service.ProductService;
+import com.example.wegomarket.service.PurchaseService;
 import com.example.wegomarket.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,12 +13,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
+import javax.swing.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 @Controller
 public class UserController {
     @Resource
     UserService userService;
+    @Resource
+    PurchaseService purchaseService;
+    @Resource
+    ProductService productService;
 
     @RequestMapping("/admin")
     public String admin()
@@ -27,10 +41,12 @@ public class UserController {
     {
         if(adminName.equals("admin")&&passWord.equals("admin"))
         {
-//            model.addAttribute("adminName","admin");
+            //删除失效订单，并加上相应库存
+            checkUselessPurchase();
+
+            //登录
             redirectAttributes.addFlashAttribute("adminName","admin");
             return "redirect:/productListForAdmin";
-            //一定要用redirect，为啥？
         }
         //todo：notify that the adminName or passWord is wrong
         return "user/admin";
@@ -90,10 +106,14 @@ public class UserController {
     public String login(String email, String passWord, RedirectAttributes redirectAttributes){
         User user=userService.findUserByEmail(email);
         //邮箱存在，测试密码是否正确
-        if (user!=null)
+        if (user!=null)//密码正确，登录成功
         {
-            //密码正确，登录成功
+            //删除失效订单
             if(user.getPassWord().equals(passWord)) {
+                //删除失效订单，并加上相应库存
+                checkUselessPurchase();
+
+                //登录
                 redirectAttributes.addFlashAttribute("userId",user.getId());
                 return "redirect:/productListForUser";//how to add para in navigation
             }
@@ -105,6 +125,36 @@ public class UserController {
         //邮箱不存在，跳转到注册页面
         else{
             return "user/registerPage";
+        }
+    }
+
+    private void checkUselessPurchase() {
+        List<Purchase> purchases=purchaseService.getPurchase();
+        SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd" );
+        Calendar calendar = new GregorianCalendar();
+        Date today=new Date();
+        for(Purchase purchase:purchases)
+        {
+            try {
+                Date startDay= sdf.parse(purchase.getPurchaseTime());
+                calendar.setTime(startDay);
+                calendar.add(Calendar.DATE,1);
+                Date endDay=calendar.getTime();
+                if(today.after(endDay)&& !purchase.isOk()){
+                    String[] productIds=purchase.getProductIdList().split(",");
+                    String[] productAmounts=purchase.getProductAmountList().split(",");
+                    for(int i=0;i<productIds.length;i++)
+                    {
+                        Product product=productService.findProductById(Long.parseLong(productIds[i]));
+                        product.setStock(product.getStock()+Integer.parseInt(productAmounts[i]));
+                        productService.save(product);
+                    }
+                    purchaseService.delete(purchase.getId());
+
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
     }
 
