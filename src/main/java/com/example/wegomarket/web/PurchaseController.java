@@ -49,7 +49,7 @@ public class PurchaseController {
     private String username;
 
     @RequestMapping("/addPurchase")
-    public String addPurchase(@RequestParam("shoppingChartIds") List<String> shoppingChartIds, RedirectAttributes redirectAttributes)
+    public String addPurchase(@ModelAttribute("shoppingChartIds") List<String> shoppingChartIds, RedirectAttributes redirectAttributes)
     {
         //todo：超时订单删除，加上库存
 
@@ -150,13 +150,7 @@ public class PurchaseController {
     {
         if (adminName!=null){
             if(adminName.equals("admin")){
-                Calendar calendar=Calendar.getInstance();
-                int year=calendar.get(Calendar.YEAR);
-                int month=calendar.get(Calendar.MONTH)+1;
-                int day=calendar.get(Calendar.DATE);
-                model.addAttribute("year",year);
-                model.addAttribute("month",month);
-                model.addAttribute("day",day);
+                getTime(model);
                 model.addAttribute("purchases",purchaseService.getPurchase());
                 model.addAttribute("adminName","admin");
                 return "purchase/purchaseList";
@@ -193,9 +187,44 @@ public class PurchaseController {
 
     @RequestMapping("/purchaseListForUser")
     public String purchaseListForUser(@ModelAttribute("userId") long userId,Model model){
+        getTime(model);
         model.addAttribute("userId",userId);
         model.addAttribute("purchases",purchaseService.getPurchaseByUserId(userId));
         return "purchase/purchaseListForUser";
+    }
+
+    private void getTime(Model model) {
+        Calendar calendar=Calendar.getInstance();
+        int year=calendar.get(Calendar.YEAR);
+        int month=calendar.get(Calendar.MONTH)+1;
+        int day=calendar.get(Calendar.DATE);
+        model.addAttribute("year",year);
+        model.addAttribute("month",month);
+        model.addAttribute("day",day);
+    }
+
+    @RequestMapping("/purchaseListForUserSpecific")
+    public String purchaseListForUserSpecific(@ModelAttribute("userId") long userId,Model model,int year,int month,int day,String mode){
+        model.addAttribute("userId",userId);
+        model.addAttribute("year",year);
+        model.addAttribute("month",month);
+        model.addAttribute("day",day);
+        if(mode.equals("year"))
+        {
+            System.out.println("in specific for user, year");
+            model.addAttribute("purchases",purchaseService.getPurchaseByTimeAndUserId(year+"-",userId));
+        }
+        else if(mode.equals("month")){
+            System.out.println("in specific for user, month");
+            model.addAttribute("purchases",purchaseService.getPurchaseByTimeAndUserId(year+"-"+month+"-",userId));
+        }
+        else if(mode.equals("day")){
+            System.out.println("in specific for user, day");
+            model.addAttribute("purchases",purchaseService.getPurchaseByTimeAndUserId(year+"-"+month+"-"+day,userId));
+        }
+
+//        model.addAttribute("purchases",purchaseService.getPurchaseByUserId(userId));//todo
+        return"purchase/purchaseListForUserSpecific";
     }
 
     @RequestMapping("/ensurePurchase")

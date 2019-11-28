@@ -10,6 +10,7 @@ public interface PurchaseService {
     public List<Purchase> getPurchaseByUserId(long userId);
     public Purchase getPurchaseById(long id);
     public List<Purchase> getPurchaseByTime(String time);
+    public List<Purchase> getPurchaseByTimeAndUserId(String time,long userId);
 
     public void save(Purchase purchase);
     public void delete(long id);

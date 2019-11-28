@@ -79,9 +79,9 @@
                         <td th:text="${item.value.name}">productName here</td>
                         <td th:text="${item.value.price}">productPrice here</td>
                         <td>
-                            <a href="#" th:href="@{/decreaseAmount(shoppingChartId=${item.key.id})}">-</a>
-                            <p th:text="${item.key.amount}"></p>
-                            <a href="#" th:href="@{/increaseAmount(shoppingChartId=${item.key.id})}">+</a>
+                            <a href="#" th:href="@{/decreaseAmount(shoppingChartId=${item.key.id})}"> - </a>
+                            <p th:text=" ${item.key.amount} " style="display: inline;padding-left: 2px; padding-right:2px"></p>
+                            <a href="#" th:href="@{/increaseAmount(shoppingChartId=${item.key.id})}"> + </a>
                         </td>
                         <td th:text="${item.value.price*item.key.amount}">total here</td>
                         <td>
@@ -89,9 +89,11 @@
                         </td>
                     </tr>
                     </tbody>
+                    <button type="submit" class="btn btn-default">下单</button>
                 </form>
             </table>
-            <button onclick="document.getElementById('theForm').submit();" class="btn btn-default">下单</button>
+<!--            <button onclick="document.getElementById('theForm').submit();" class="btn btn-default">下单</button>-->
+<!--            会出错-->
         </div>
     </div>
 
@@ -104,6 +106,7 @@
         let checkBoxes=$("input[name='shoppingChartIds']");
         for(let i=0;i<checkBoxes.length;i++){
             if(checkBoxes[i].checked){
+                console.log(i+"is checked");
                 return true;
             }
         }

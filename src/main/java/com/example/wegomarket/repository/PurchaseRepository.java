@@ -8,6 +8,7 @@ public interface PurchaseRepository  extends JpaRepository<Purchase, Long> {
     Purchase findById(long id);
     List<Purchase> findByUserId(long userId);
     List<Purchase> findPurchaseByPurchaseTimeIsLike(String purchaseTime);
+    List<Purchase> findPurchaseByPurchaseTimeIsLikeAndUserId(String purchaseTime,long userId);
     void deleteById(long id);
 
 }
