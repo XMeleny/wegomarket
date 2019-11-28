@@ -4,6 +4,7 @@ import com.example.wegomarket.model.User;
 import com.example.wegomarket.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -105,6 +106,22 @@ public class UserController {
         else{
             return "user/registerPage";
         }
+    }
+
+    @RequestMapping("/selfEditPage")
+    public String selfEdit(Model model, @ModelAttribute("userId") long userId)
+    {
+        User user=userService.findUserById(userId);
+        model.addAttribute("user",user);
+        return "user/selfEditPage";
+    }
+
+    @RequestMapping("/editSelf")
+    public String editSelf(User user,RedirectAttributes redirectAttributes){
+        System.out.println("here in function edit self");
+        userService.edit(user);
+        redirectAttributes.addFlashAttribute("userId",user.getId());
+        return "redirect:/productListForUser";
     }
 
 }

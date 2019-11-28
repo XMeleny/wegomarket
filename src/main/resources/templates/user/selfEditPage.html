@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改个人信息</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+</head>
+<body>
+<div class="container" style="margin-top: 60px">
+
+    <!--    导航栏-->
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="#">WeGoMarket</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <form id="checkProductListForm" th:action="@{/productListForUser}" method="post">
+                                <input hidden name="userId" th:value="${user.id}">
+                            </form>
+                            <a href="#" onclick="document.getElementById('checkProductListForm').submit();">选购</a>
+                        </li>
+                        <li>
+                            <form id="checkShoppingChartForm" th:action="@{/shoppingChartList}" method="post">
+                                <input hidden name="userId" th:value="${user.id}">
+                            </form>
+                            <a href="#" onclick="document.getElementById('checkShoppingChartForm').submit();">查看购物车</a>
+                        </li>
+                        <li>
+                            <form id="checkPurchaseForm" th:action="@{/purchaseListForUser}" method="post">
+                                <input hidden name="userId" th:value="${user.id}">
+                            </form>
+                            <a href="#" onclick="document.getElementById('checkPurchaseForm').submit();">查看订单</a>
+                        </li>
+                        <li>
+                            <a href="#">修改个人信息</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/}">注销</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </nav>
+
+        </div>
+    </div>
+
+    <!--购物车列表！-->
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <form class="form-horizontal" role="form" th:action="@{/editSelf}" method="post" onsubmit="return judge()">
+                <input type="hidden" name="id" th:value="${user.id}" />
+                <div class="form-group">
+                    <label for="email" class="col-sm-2 control-label">邮箱</label>
+                    <div class="col-sm-10">
+                        <input type="email" class="form-control" id="email" name="email" data-th-value="${user.email}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="nickName" class="col-sm-2 control-label" >昵称</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="nickName" name="nickName" data-th-value="${user.nickName}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="passWord" class="col-sm-2 control-label">密码</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="passWord" name="passWord" th:value="${user.passWord}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="repeatPassWord" class="col-sm-2 control-label">重复密码</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="repeatPassWord" th:value="${user.passWord}"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-10">
+                        <button class="btn btn-default" type="submit">提交</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</div>
+
+<script th:inline="javascript">
+    var reg=/^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+    var emailString=[[${user.email}]];
+    var pass=[[${user.passWord}]];
+    var repass=[[${user.passWord}]];
+    var nickNameString=[[${user.nickName}]];
+
+    function judge(){
+        console.log("in judge");
+        if (reg.test(emailString)&&(pass===repass)&&(pass!=null)) {
+            console.log("true");
+            return true;
+        }
+        else{
+            console.log("false");
+            return false;
+        }
+    }
+
+    email.onchange=function() {
+        emailString=this.value;
+        console.log("email "+emailString)
+    };
+    nickName.onchange=function() {
+        nickNameString=this.value;
+        console.log("nick name "+nickNameString)
+    };
+    passWord.onchange=function () {
+        pass=this.value;
+        console.log("password "+pass)
+    };
+    repeatPassWord.onchange=function () {
+        repass=this.value;
+        console.log("repass "+repass)
+    };
+
+
+</script>
+</body>
+</html>
