@@ -6,12 +6,12 @@ import com.example.wegomarket.service.ProductService;
 import com.example.wegomarket.service.ShoppingChartService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,8 +41,8 @@ public class ShoppingChartController {
         return "redirect:/productListForUser";
     }
 
-    @RequestMapping(value = "/shoppingChartList")
-    public String shoppingChartList(Model model, long userId){
+    @RequestMapping("/shoppingChartList")
+    public String shoppingChartList(Model model, @ModelAttribute("userId") long userId){
         List<ShoppingChart> shoppingCharts=shoppingChartService.getShoppingChartListByUserId(userId);
 
         Map<ShoppingChart, Product> map=new HashMap<>();
@@ -53,6 +53,14 @@ public class ShoppingChartController {
         model.addAttribute("userId",userId);
         model.addAttribute("map",map);
         return "shoppingChart/shoppingChartList";
+    }
+
+    @RequestMapping("/deleteShoppingChart")
+    public String deleteShoppingChart(long shoppingChartId, long userId, RedirectAttributes redirectAttributes)
+    {
+        shoppingChartService.delete(shoppingChartId);
+        redirectAttributes.addFlashAttribute("userId",userId);
+        return "redirect:/shoppingChartList";
     }
 
 }
