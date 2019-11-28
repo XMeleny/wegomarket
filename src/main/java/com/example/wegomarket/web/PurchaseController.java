@@ -7,7 +7,8 @@ import com.example.wegomarket.service.ProductService;
 import com.example.wegomarket.service.PurchaseService;
 import com.example.wegomarket.service.ShoppingChartService;
 
-import com.example.wegomarket.util;
+import com.example.wegomarket.Util;
+import com.example.wegomarket.service.UserService;
 import org.apache.tomcat.util.buf.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,6 +37,9 @@ public class PurchaseController {
 
     @Resource
     ProductService productService;
+
+    @Resource
+    UserService userService;
 
     @Autowired
     private JavaMailSender javaMailSender;
@@ -67,7 +71,7 @@ public class PurchaseController {
 
         boolean canBuy=true;
 
-        String checkCode=util.makeCheckCode();
+        String checkCode= Util.makeCheckCode();
         List<ShoppingChart> shoppingCharts=new ArrayList<>();
 
         for(String shoppingChartId :shoppingChartIds)
@@ -123,9 +127,11 @@ public class PurchaseController {
             //发送邮件
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(username);
-            message.setTo("865622793@qq.com");
+            message.setTo(userService.findUserById(purchase.getUserId()).getEmail());
             message.setSubject("确认下单");
-            message.setText(checkCode);
+            message.setText("你在"+purchase.getPurchaseTime()+"购买了商品，请于今晚24:00前确认订单。\n" +
+                    "验证码为："+checkCode+"。\n"+
+                    "订单号为："+purchase.getId());
             javaMailSender.send(message);
         }
 

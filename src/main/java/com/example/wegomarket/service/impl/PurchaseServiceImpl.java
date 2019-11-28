@@ -30,7 +30,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 
     @Override
     public void save(Purchase purchase) {
-        purchaseRepository.save(purchase);
+        purchaseRepository.saveAndFlush(purchase);
 
     }
 

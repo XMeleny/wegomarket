@@ -2,7 +2,7 @@ package com.example.wegomarket;
 
 import java.util.Random;
 
-public class util {
+public class Util {
     public static String makeCheckCode(){
         String str="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         Random random=new Random();
