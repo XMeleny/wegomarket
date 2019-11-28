@@ -24,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -149,12 +150,45 @@ public class PurchaseController {
     {
         if (adminName!=null){
             if(adminName.equals("admin")){
+                Calendar calendar=Calendar.getInstance();
+                int year=calendar.get(Calendar.YEAR);
+                int month=calendar.get(Calendar.MONTH)+1;
+                int day=calendar.get(Calendar.DATE);
+                model.addAttribute("year",year);
+                model.addAttribute("month",month);
+                model.addAttribute("day",day);
                 model.addAttribute("purchases",purchaseService.getPurchase());
                 model.addAttribute("adminName","admin");
                 return "purchase/purchaseList";
             }
         }
         return "redirect:/productList";
+    }
+
+    @RequestMapping("purchaseListForSpecific")
+    public String purchaseListForSpecific(Model model,String adminName,int year,int month,int day,String mode,RedirectAttributes redirectAttributes){
+        if (adminName!=null){
+            if(adminName.equals("admin")){
+                if(mode.equals("year")){
+                    model.addAttribute("purchases",purchaseService.getPurchaseByTime(year+"-"));
+                }
+                else if(mode.equals("month")){
+                    model.addAttribute("purchases",purchaseService.getPurchaseByTime(year+"-"+month+"-"));
+                }
+                else if(mode.equals("day")){
+                    model.addAttribute("purchases",purchaseService.getPurchaseByTime(year+"-"+month+"-"+day));
+                }
+                model.addAttribute("adminName","admin");
+                model.addAttribute("year",year);
+                model.addAttribute("month",month);
+                model.addAttribute("day",day);
+                return "purchase/purchaseListForSpecific";
+            }
+        }
+        return "redirect:/productList";
+
+
+
     }
 
     @RequestMapping("/purchaseListForUser")
@@ -177,4 +211,6 @@ public class PurchaseController {
         return "redirect:/purchaseListForUser";
 
     }
+
+
 }

@@ -29,6 +29,12 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
+    public List<Purchase> getPurchaseByTime(String time) {
+//        return null;
+        return purchaseRepository.findPurchaseByPurchaseTimeIsLike(time);
+    }
+
+    @Override
     public void save(Purchase purchase) {
         purchaseRepository.saveAndFlush(purchase);
 

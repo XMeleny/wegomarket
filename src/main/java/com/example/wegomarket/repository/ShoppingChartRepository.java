@@ -12,4 +12,5 @@ public interface ShoppingChartRepository extends JpaRepository<ShoppingChart, Lo
     ShoppingChart findByUserIdAndProductId(long userId,long productId);
 
 
+
 }
