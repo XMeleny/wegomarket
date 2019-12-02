@@ -73,26 +73,26 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>编号</th>
-                    <th>用户编号</th>
+                    <th>订单编号</th>
                     <th>购买时间</th>
                     <th>商品编号列表</th>
+                    <th>商品名列表</th>
                     <th>商品数量列表</th>
+                    <th>商品价格列表</th>
                     <th>总价</th>
-                    <th>验证码</th>
-                    <th>是否完成</th>
+                    <th>完成状态</th>
                 </tr>
                 </thead>
 
                 <tbody>
                 <tr th:each="purchase: ${purchases}">
                     <th  scope="row" th:text="${purchase.id}">purchaseId here</th>
-                    <td th:text="${purchase.userId}">userId here</td>
                     <td th:text="${purchase.purchaseTime}">purchaseTime here</td>
-                    <td th:text="${purchase.productIdList}">productIdList here</td>
-                    <td th:text="${purchase.productAmountList}">productAmountList here</td>
+                    <td th:text="${purchase.productIdList}"></td>
+                    <td th:text="${purchase.productNameList}"></td>
+                    <td th:text="${purchase.productAmountList}"></td>
+                    <td th:text="${purchase.productPriceList}"></td>
                     <td th:text="${purchase.total}">total here</td>
-                    <td th:text="${purchase.checkCode}">checkCode here</td>
                     <td th:text="${purchase.ok}">ok here</td>
                 </tr>
                 </tbody>

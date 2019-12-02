@@ -174,7 +174,7 @@ public class PurchaseController {
     }
 
     @RequestMapping("purchaseListForSpecific")
-    public String purchaseListForSpecific(Model model,String adminName,int year,int month,int day,String mode,RedirectAttributes redirectAttributes){
+    public String purchaseListForSpecific(Model model,String adminName,String year,String month,String day,String mode,RedirectAttributes redirectAttributes){
         if (adminName!=null){
             if(adminName.equals("admin")){
                 if(mode.equals("year")){
@@ -194,9 +194,6 @@ public class PurchaseController {
             }
         }
         return "redirect:/productList";
-
-
-
     }
 
     @RequestMapping("/purchaseListForUser")
@@ -208,17 +205,19 @@ public class PurchaseController {
     }
 
     private void getTime(Model model) {
-        Calendar calendar=Calendar.getInstance();
-        int year=calendar.get(Calendar.YEAR);
-        int month=calendar.get(Calendar.MONTH)+1;
-        int day=calendar.get(Calendar.DATE);
-        model.addAttribute("year",year);
-        model.addAttribute("month",month);
-        model.addAttribute("day",day);
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String tempDate = sdf.format(date);
+
+        String[] nums =tempDate .split("-");
+
+        model.addAttribute("year",nums[0]);
+        model.addAttribute("month",nums[1]);
+        model.addAttribute("day",nums[2]);
     }
 
     @RequestMapping("/purchaseListForUserSpecific")
-    public String purchaseListForUserSpecific(@ModelAttribute("userId") long userId,Model model,int year,int month,int day,String mode){
+    public String purchaseListForUserSpecific(@ModelAttribute("userId") long userId,Model model,String year,String month,String day,String mode){
         model.addAttribute("userId",userId);
         model.addAttribute("year",year);
         model.addAttribute("month",month);
