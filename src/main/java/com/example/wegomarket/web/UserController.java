@@ -6,6 +6,8 @@ import com.example.wegomarket.model.User;
 import com.example.wegomarket.service.ProductService;
 import com.example.wegomarket.service.PurchaseService;
 import com.example.wegomarket.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,6 +24,8 @@ import java.util.List;
 
 @Controller
 public class UserController {
+    private static final Logger LOG = LoggerFactory.getLogger(User.class);
+
     @Resource
     UserService userService;
     @Resource
@@ -40,6 +44,7 @@ public class UserController {
     {
         if(adminName.equals("admin")&&passWord.equals("admin"))
         {
+            LOG.info("admin login");
             //删除失效订单，并加上相应库存
             checkUselessPurchase();
 
@@ -74,12 +79,14 @@ public class UserController {
     public String register(User user,RedirectAttributes redirectAttributes){
         userService.save(user);
         redirectAttributes.addFlashAttribute("userId",user.getId());
+        LOG.info("A new user register: "+user.getId());
         return "redirect:/productListForUser";
     }
 
     @RequestMapping("/delete")
     public String delete(long id){
         userService.delete(id);
+        LOG.info("delete a user: "+id);
         return "redirect:/userList";
     }
 
@@ -93,6 +100,7 @@ public class UserController {
     @RequestMapping("/edit")
     public String edit(User user){
         userService.edit(user);
+        LOG.info("admin edit a user"+user.getId());
         return "redirect:/userList";
     }
 
@@ -114,6 +122,8 @@ public class UserController {
 
                 //登录
                 redirectAttributes.addFlashAttribute("userId",user.getId());
+
+                LOG.info("a user login:"+user.getId());
                 return "redirect:/productListForUser";//how to add para in navigation
             }
             else
@@ -170,6 +180,7 @@ public class UserController {
         System.out.println("here in function edit self");
         userService.edit(user);
         redirectAttributes.addFlashAttribute("userId",user.getId());
+        LOG.info("a user edit himself"+user.getId());
         return "redirect:/productListForUser";
     }
 

@@ -4,6 +4,8 @@ import com.example.wegomarket.model.Product;
 import com.example.wegomarket.model.ShoppingChart;
 import com.example.wegomarket.service.ProductService;
 import com.example.wegomarket.service.ShoppingChartService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,13 +19,15 @@ import java.util.Map;
 
 @Controller
 public class ShoppingChartController {
+    private static final Logger LOG = LoggerFactory.getLogger(ShoppingChart.class);
+
     @Resource
     ShoppingChartService shoppingChartService;
 
     @Resource
     ProductService productService;
 
-    @RequestMapping(value = "/addShoppingChart" )
+    @RequestMapping("/addShoppingChart" )
     public String addShoppingChart(ShoppingChart shoppingChart, RedirectAttributes redirectAttributes)
     {
         ShoppingChart originShoppingChart=shoppingChartService.getShoppingChartByUserIdAndProductId(shoppingChart.getUserId(),shoppingChart.getProductId());
@@ -35,6 +39,7 @@ public class ShoppingChartController {
         else{
             shoppingChartService.save(shoppingChart);
         }
+        LOG.info("user:"+shoppingChart.getUserId()+" just add:"+shoppingChart.getProductId()+" into shopping chart");
 
         redirectAttributes.addFlashAttribute("userId",shoppingChart.getUserId());
         return "redirect:/productListForUser";
@@ -57,8 +62,11 @@ public class ShoppingChartController {
     @RequestMapping("/deleteShoppingChart")
     public String deleteShoppingChart(long shoppingChartId, long userId, RedirectAttributes redirectAttributes)
     {
+        ShoppingChart shoppingChart= shoppingChartService.getShoppingChartById(shoppingChartId);
+        long productId=shoppingChart.getProductId();
         shoppingChartService.delete(shoppingChartId);
         redirectAttributes.addFlashAttribute("userId",userId);
+        LOG.info("user:"+userId+" just delete:"+productId);
         return "redirect:/shoppingChartList";
     }
 
@@ -72,6 +80,7 @@ public class ShoppingChartController {
             shoppingChartService.save(shoppingChart);
         }
         redirectAttributes.addFlashAttribute("userId",shoppingChart.getUserId());
+        LOG.info("user:"+shoppingChart.getUserId()+" decrease the amount of "+shoppingChart.getProductId());
         return "redirect:/shoppingChartList";
 
     }
@@ -88,6 +97,7 @@ public class ShoppingChartController {
             shoppingChartService.save(shoppingChart);
         }
         redirectAttributes.addFlashAttribute("userId",shoppingChart.getUserId());
+        LOG.info("user: "+shoppingChart.getUserId()+" just increase the amount of "+shoppingChart.getProductId());
         return "redirect:/shoppingChartList";
     }
 

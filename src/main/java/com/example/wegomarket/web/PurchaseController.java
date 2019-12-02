@@ -10,6 +10,8 @@ import com.example.wegomarket.service.ShoppingChartService;
 import com.example.wegomarket.Util;
 import com.example.wegomarket.service.UserService;
 import org.apache.tomcat.util.buf.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -29,6 +31,8 @@ import java.util.List;
 
 @Controller
 public class PurchaseController {
+    private static final Logger LOG = LoggerFactory.getLogger(Purchase.class);
+
     @Resource
     PurchaseService purchaseService;
 
@@ -147,6 +151,8 @@ public class PurchaseController {
                     "验证码为："+checkCode+"。\n"+
                     "订单号为："+purchase.getId());
             javaMailSender.send(message);
+
+            LOG.info("user"+userId+"just add purchase"+purchase.getId());
         }
 
         else{
@@ -248,6 +254,8 @@ public class PurchaseController {
             purchase.setOk(true);
             purchaseService.save(purchase);
         }
+
+        LOG.info("user: "+purchase.getUserId()+" just ensure purchase: " +purchaseId);
 
         redirectAttributes.addFlashAttribute("userId",purchase.getUserId());
         return "redirect:/purchaseListForUser";
