@@ -12,9 +12,6 @@ public class Product implements Serializable {
     @GeneratedValue
     private Long id;
 
-    @Column()
-    private File image;
-
     @Column(nullable = false)
     private String name;
 
@@ -27,8 +24,7 @@ public class Product implements Serializable {
     public Product() {
     }
 
-    public Product(File image, String name, double price, int stock) {
-        this.image = image;
+    public Product(String name, double price, int stock) {
         this.name = name;
         this.price = price;
         this.stock = stock;
@@ -40,14 +36,6 @@ public class Product implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public File getImage() {
-        return image;
-    }
-
-    public void setImage(File image) {
-        this.image = image;
     }
 
     public String getName() {

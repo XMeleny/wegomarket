@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
+import javax.jws.WebParam;
 import java.util.List;
 
 @Controller
@@ -73,15 +74,17 @@ public class ProductController {
     }
 
     @RequestMapping("/editProduct")
-    public String editProduct(Product product)
+    public String editProduct(Product product, RedirectAttributes redirectAttributes)
     {
         productService.save(product);
+        redirectAttributes.addFlashAttribute("adminName","admin");
         return"redirect:/productListForAdmin";
     }
 
     @RequestMapping("deleteProduct")
-    public String deleteProduct(long id){
+    public String deleteProduct(long id,RedirectAttributes redirectAttributes){
         productService.delete(id);
+        redirectAttributes.addFlashAttribute("adminName","admin");
         return"redirect:/productListForAdmin";
     }
 
