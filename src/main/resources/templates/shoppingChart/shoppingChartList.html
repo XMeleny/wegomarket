@@ -20,11 +20,11 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                        <form id="checkProductListForm" th:action="@{/productListForUser}" method="post">
-                            <input hidden name="userId" th:value="${userId}">
-                        </form>
-                        <a href="#" onclick="document.getElementById('checkProductListForm').submit();">选购</a>
-                    </li>
+                            <form id="checkProductListForm" th:action="@{/productListForUser}" method="post">
+                                <input hidden name="userId" th:value="${userId}">
+                            </form>
+                            <a href="#" onclick="document.getElementById('checkProductListForm').submit();">选购</a>
+                        </li>
                         <li>
                             <a href="#">查看购物车</a>
                         </li>
@@ -70,7 +70,6 @@
 
                 <form th:action="@{/addPurchase}" id="theForm" method="post" onsubmit="return judge()">
                     <tbody>
-
                     <tr  th:each="item: ${map}">
                         <!-- key is shopping chart, value is product-->
                         <th  scope="row" th:text="${item.key.id}">shoppingChartId here</th>
@@ -92,8 +91,8 @@
                     <button type="submit" class="btn btn-default">下单</button>
                 </form>
             </table>
-<!--            <button onclick="document.getElementById('theForm').submit();" class="btn btn-default">下单</button>-->
-<!--            会出错-->
+            <!--            <button onclick="document.getElementById('theForm').submit();" class="btn btn-default">下单</button>-->
+            <!--            会出错-->
         </div>
     </div>
 
@@ -104,6 +103,7 @@
 <script>
     function judge() {
         let checkBoxes=$("input[name='shoppingChartIds']");
+        console.log(checkBoxes.length);
         for(let i=0;i<checkBoxes.length;i++){
             if(checkBoxes[i].checked){
                 console.log(i+"is checked");

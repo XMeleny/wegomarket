@@ -18,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
@@ -49,8 +48,9 @@ public class PurchaseController {
     private String username;
 
     @RequestMapping("/addPurchase")
-    public String addPurchase(@ModelAttribute("shoppingChartIds") List<String> shoppingChartIds, RedirectAttributes redirectAttributes)
+    public String addPurchase(String[] shoppingChartIds, RedirectAttributes redirectAttributes)
     {
+        System.out.println("the size is: "+shoppingChartIds.length);
         //todo：超时订单删除，加上库存
 
         //进行操作之前已经保证shoppingChartIds不为空
@@ -141,7 +141,7 @@ public class PurchaseController {
         }
 
         redirectAttributes.addFlashAttribute("userId",userId);
-        return "redirect:/productListForUser";
+        return "redirect:/purchaseListForUser";
 
     }
 
