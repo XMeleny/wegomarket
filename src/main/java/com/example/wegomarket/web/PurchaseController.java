@@ -143,7 +143,7 @@ public class PurchaseController {
             message.setFrom(username);
             message.setTo(userService.findUserById(purchase.getUserId()).getEmail());
             message.setSubject("确认下单");
-            message.setText("你在"+purchase.getPurchaseTime()+"购买了商品，请于今晚24:00前确认订单。\n" +
+            message.setText("你在"+purchase.getPurchaseTime()+"购买了商品，请于明晚24:00前确认订单。\n" +
                     "验证码为："+checkCode+"。\n"+
                     "订单号为："+purchase.getId());
             javaMailSender.send(message);
