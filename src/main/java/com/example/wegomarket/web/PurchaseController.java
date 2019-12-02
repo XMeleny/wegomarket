@@ -51,7 +51,6 @@ public class PurchaseController {
     public String addPurchase(String[] shoppingChartIds, RedirectAttributes redirectAttributes)
     {
         System.out.println("the size is: "+shoppingChartIds.length);
-        //todo：超时订单删除，加上库存
 
         //进行操作之前已经保证shoppingChartIds不为空
         //将信息填好
@@ -62,12 +61,17 @@ public class PurchaseController {
         long userId=0;
 
         List<String> productIds=new ArrayList<>();
+        List<String> productNames=new ArrayList<>();
         List<String> productAmounts=new ArrayList<>();
+        List<String> productPrices=new ArrayList<>();
+
+        Product tempProduct;
 
         long productId;
+        String productName;
         int productAmount;
-        int productStock;
         double productPrice;
+        int productStock;
 
         boolean canBuy=true;
 
@@ -82,9 +86,12 @@ public class PurchaseController {
             userId=shoppingChart.getUserId();
 
             productId=shoppingChart.getProductId();
-            productAmount=shoppingChart.getAmount();
+            tempProduct=productService.findProductById(productId);
+            productName=tempProduct.getName();
             productPrice=productService.findProductById(productId).getPrice();
+            productAmount=shoppingChart.getAmount();
             productStock=productService.findProductById(productId).getStock();
+
             //check the stock
             if (productAmount>productStock)
             {
@@ -93,19 +100,26 @@ public class PurchaseController {
             }
 
             productIds.add(String.valueOf(productId));
+            productNames.add(productName);
             productAmounts.add(String.valueOf(productAmount));
+            productPrices.add(String.valueOf(productPrice));
+
             total += productAmount * productPrice;
         }
 
         if(canBuy) {
             //订单详细信息
             String productIdList = StringUtils.join(productIds, ',');
+            String productNameList = StringUtils.join(productNames, ',');
             String productAmountList = StringUtils.join(productAmounts, ',');
+            String productPriceList = StringUtils.join(productPrices, ',');
 
             Purchase purchase = new Purchase();
             purchase.setUserId(userId);
             purchase.setProductIdList(productIdList);
+            purchase.setProductNameList(productNameList);
             purchase.setProductAmountList(productAmountList);
+            purchase.setProductPriceList(productPriceList);
             purchase.setTotal(total);
             purchase.setPurchaseTime(purchaseTime);
             purchase.setCheckCode(checkCode);

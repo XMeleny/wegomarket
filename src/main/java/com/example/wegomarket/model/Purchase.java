@@ -18,7 +18,14 @@ public class Purchase implements Serializable {
     private String productIdList;
 
     @Column(nullable = false)
+    private String productNameList;
+
+    @Column(nullable = false)
     private String productAmountList;
+
+    @Column(nullable = false)
+    private String productPriceList;
+
 
     @Column(nullable = false)
     private double total;
@@ -35,10 +42,12 @@ public class Purchase implements Serializable {
     public Purchase() {
     }
 
-    public Purchase(Long userId, String productIdList, String productAmountList, double total, String purchaseTime, String checkCode, boolean ok) {
+    public Purchase(Long userId, String productIdList, String productNameList, String productAmountList, String productPriceList, double total, String purchaseTime, String checkCode, boolean ok) {
         this.userId = userId;
         this.productIdList = productIdList;
+        this.productNameList = productNameList;
         this.productAmountList = productAmountList;
+        this.productPriceList = productPriceList;
         this.total = total;
         this.purchaseTime = purchaseTime;
         this.checkCode = checkCode;
@@ -67,6 +76,22 @@ public class Purchase implements Serializable {
 
     public void setProductIdList(String productIdList) {
         this.productIdList = productIdList;
+    }
+
+    public String getProductNameList() {
+        return productNameList;
+    }
+
+    public void setProductNameList(String productNameList) {
+        this.productNameList = productNameList;
+    }
+
+    public String getProductPriceList() {
+        return productPriceList;
+    }
+
+    public void setProductPriceList(String productPriceList) {
+        this.productPriceList = productPriceList;
     }
 
     public String getProductAmountList() {
