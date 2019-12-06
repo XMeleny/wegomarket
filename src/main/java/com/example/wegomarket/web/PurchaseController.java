@@ -171,7 +171,14 @@ public class PurchaseController {
         if (adminName!=null){
             if(adminName.equals("admin")){
                 getTime(model);
-                model.addAttribute("purchases",purchaseService.getPurchase());
+                List<Purchase> purchases=purchaseService.getPurchase();
+                double summary=0;
+                for (int i=0;i<purchases.size();i++)
+                {
+                    summary+=purchases.get(i).getTotal();
+                }
+                model.addAttribute("purchases",purchases);
+                model.addAttribute("summary",summary);
                 model.addAttribute("adminName","admin");
                 return "purchase/purchaseList";
             }
@@ -183,16 +190,26 @@ public class PurchaseController {
     public String purchaseListForSpecific(Model model,String adminName,String year,String month,String day,String mode,RedirectAttributes redirectAttributes){
         if (adminName!=null){
             if(adminName.equals("admin")){
+                List<Purchase> purchases=new ArrayList<>();
+                double summary=0;
                 if(mode.equals("year")){
-                    model.addAttribute("purchases",purchaseService.getPurchaseByTime(year+"-"));
+                    purchases=purchaseService.getPurchaseByTime(year+"-");
                 }
                 else if(mode.equals("month")){
-                    model.addAttribute("purchases",purchaseService.getPurchaseByTime(year+"-"+month+"-"));
+                    purchases=purchaseService.getPurchaseByTime(year+"-"+month+"-");
                 }
                 else if(mode.equals("day")){
-                    model.addAttribute("purchases",purchaseService.getPurchaseByTime(year+"-"+month+"-"+day));
+                    purchases=purchaseService.getPurchaseByTime(year+"-"+month+"-"+day);
                 }
+
+                for (int i=0;i<purchases.size();i++)
+                {
+                    summary+=purchases.get(i).getTotal();
+                }
+
                 model.addAttribute("adminName","admin");
+                model.addAttribute("purchases",purchases);
+                model.addAttribute("summary",summary);
                 model.addAttribute("year",year);
                 model.addAttribute("month",month);
                 model.addAttribute("day",day);
