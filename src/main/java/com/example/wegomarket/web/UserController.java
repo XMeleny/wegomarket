@@ -124,7 +124,7 @@ public class UserController {
                 redirectAttributes.addFlashAttribute("userId",user.getId());
 
                 LOG.info("a user login:"+user.getId());
-                return "redirect:/productListForUser";//how to add para in navigation
+                return "redirect:/productListForUser";
             }
             else
             {
