@@ -152,12 +152,12 @@ public class PurchaseController {
                     "订单号为："+purchase.getId());
             javaMailSender.send(message);
 
+            //purchase.getId(): 获得刚插入的记录的自增id
             LOG.info("user"+userId+"just add purchase"+purchase.getId());
         }
 
         else{
             System.out.println("库存不够哦！");
-            //todo :提示库存不够
         }
 
         redirectAttributes.addFlashAttribute("userId",userId);

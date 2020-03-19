@@ -92,8 +92,4 @@ public class ProductController {
         redirectAttributes.addFlashAttribute("adminName","admin");
         return"redirect:/productListForAdmin";
     }
-
-
-
-
 }

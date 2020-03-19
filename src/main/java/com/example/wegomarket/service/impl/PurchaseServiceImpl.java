@@ -31,18 +31,19 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     public List<Purchase> getPurchaseByTime(String time) {
 //        return null;
-        return purchaseRepository.findPurchaseByPurchaseTimeIsLike("%"+time+"%");
+        return purchaseRepository.findPurchaseByPurchaseTimeIsLike("%" + time + "%");
     }
 
     @Override
     public List<Purchase> getPurchaseByTimeAndUserId(String time, long userId) {
-        return purchaseRepository.findPurchaseByPurchaseTimeIsLikeAndUserId("%"+time+"%",userId);
+        return purchaseRepository.findPurchaseByPurchaseTimeIsLikeAndUserId("%" + time + "%", userId);
     }
+
 
     @Override
     public void save(Purchase purchase) {
+        //saveAndFlush: 能获取刚插入的记录的id并放在purchase对象中
         purchaseRepository.saveAndFlush(purchase);
-
     }
 
     @Override
