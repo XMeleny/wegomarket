@@ -10,22 +10,28 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false, unique = true)
     private String email;
-    @Column(nullable = false,unique = false)
+    @Column(nullable = false, unique = false)
     private String passWord;
-    @Column(nullable = true,unique = true)
+    @Column(nullable = true, unique = true)
     private String nickName;
+    @Column
+    private int buy = 0;
+    @Column
+    private int toBuy = 0;
 
     public User() {
     }
 
-    public User(String email, String passWord, String nickName) {
+    public User(String email, String passWord, String nickName, int buy, int toBuy) {
         this.email = email;
         this.passWord = passWord;
         this.nickName = nickName;
+        this.buy = buy;
+        this.toBuy = toBuy;
     }
 
     public Long getId() {
@@ -58,5 +64,21 @@ public class User implements Serializable {
 
     public void setNickName(String nickName) {
         this.nickName = nickName;
+    }
+
+    public int getBuy() {
+        return buy;
+    }
+
+    public void setBuy(int buy) {
+        this.buy = buy;
+    }
+
+    public int getToBuy() {
+        return toBuy;
+    }
+
+    public void setToBuy(int toBuy) {
+        this.toBuy = toBuy;
     }
 }

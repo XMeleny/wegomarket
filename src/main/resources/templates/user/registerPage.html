@@ -30,6 +30,8 @@
                     </div>
                 </div>
 
+                <input style="display: none" type="number" class="form-control" name="bought" th:value="0"/>
+
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit" class="btn btn-default" id="btnSubmit">注册</button>
@@ -41,29 +43,28 @@
 </div>
 
 <script>
-    var reg=/^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
-    var emailString=null;
-    var pass=null;
-    var repass=null;
+    var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+    var emailString = null;
+    var pass = null;
+    var repass = null;
 
-    function judge(){
+    function judge() {
         console.log("in judge");
-        if (reg.test(emailString)&&(pass===repass)&&(pass!=null)) {
+        if (reg.test(emailString) && (pass === repass) && (pass != null)) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
 
-    email.onchange=function() {
-        emailString=this.value;
+    email.onchange = function () {
+        emailString = this.value;
     };
-    passWord.onchange=function () {
-        pass=this.value;
+    passWord.onchange = function () {
+        pass = this.value;
     };
-    repeatPassWord.onchange=function () {
-        repass=this.value;
+    repeatPassWord.onchange = function () {
+        repass = this.value;
     };
 
 </script>

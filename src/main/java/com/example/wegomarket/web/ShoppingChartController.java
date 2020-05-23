@@ -2,8 +2,10 @@ package com.example.wegomarket.web;
 
 import com.example.wegomarket.model.Product;
 import com.example.wegomarket.model.ShoppingChart;
+import com.example.wegomarket.model.User;
 import com.example.wegomarket.service.ProductService;
 import com.example.wegomarket.service.ShoppingChartService;
+import com.example.wegomarket.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -27,77 +29,83 @@ public class ShoppingChartController {
     @Resource
     ProductService productService;
 
-    @RequestMapping("/addShoppingChart" )
-    public String addShoppingChart(ShoppingChart shoppingChart, RedirectAttributes redirectAttributes)
-    {
-        ShoppingChart originShoppingChart=shoppingChartService.getShoppingChartByUserIdAndProductId(shoppingChart.getUserId(),shoppingChart.getProductId());
-        if(originShoppingChart!=null)
-        {
-            originShoppingChart.setAmount(originShoppingChart.getAmount()+1);
+    @Resource
+    UserService userService;
+
+    @RequestMapping("/addShoppingChart")
+    public String addShoppingChart(ShoppingChart shoppingChart, RedirectAttributes redirectAttributes) {
+        ShoppingChart originShoppingChart = shoppingChartService.getShoppingChartByUserIdAndProductId(shoppingChart.getUserId(), shoppingChart.getProductId());
+        if (originShoppingChart != null) {
+            originShoppingChart.setAmount(originShoppingChart.getAmount() + 1);
             shoppingChartService.save(originShoppingChart);
-        }
-        else{
+        } else {
             shoppingChartService.save(shoppingChart);
         }
-        LOG.info("user:"+shoppingChart.getUserId()+" just add:"+shoppingChart.getProductId()+" into shopping chart");
+        LOG.info("user:" + shoppingChart.getUserId() + " just add:" + shoppingChart.getProductId() + " into shopping chart");
 
-        redirectAttributes.addFlashAttribute("userId",shoppingChart.getUserId());
+
+        User user = userService.findUserById(shoppingChart.getUserId());
+        int buy = 1 << shoppingChart.getProductId();
+        user.setBuy(user.getBuy() | buy);
+
+        // 记得保存到数据库中
+        userService.save(user);
+
+        redirectAttributes.addFlashAttribute("userId", user.getId());
         return "redirect:/productListForUser";
     }
 
     @RequestMapping("/shoppingChartList")
-    public String shoppingChartList(Model model, @ModelAttribute("userId") long userId){
-        List<ShoppingChart> shoppingCharts=shoppingChartService.getShoppingChartListByUserId(userId);
+    public String shoppingChartList(Model model, @ModelAttribute("userId") long userId) {
+        List<ShoppingChart> shoppingCharts = shoppingChartService.getShoppingChartListByUserId(userId);
 
-        Map<ShoppingChart, Product> map=new HashMap<>();
-        for (ShoppingChart s :shoppingCharts){
-            map.put(s,productService.findProductById(s.getProductId()));
+        Map<ShoppingChart, Product> map = new HashMap<>();
+        for (ShoppingChart s : shoppingCharts) {
+            map.put(s, productService.findProductById(s.getProductId()));
         }
 
-        model.addAttribute("userId",userId);
-        model.addAttribute("map",map);
+        model.addAttribute("userId", userId);
+        model.addAttribute("map", map);
         return "shoppingChart/shoppingChartList";
     }
 
     @RequestMapping("/deleteShoppingChart")
-    public String deleteShoppingChart(long shoppingChartId, long userId, RedirectAttributes redirectAttributes)
-    {
-        ShoppingChart shoppingChart= shoppingChartService.getShoppingChartById(shoppingChartId);
-        long productId=shoppingChart.getProductId();
+    public String deleteShoppingChart(long shoppingChartId, long userId, RedirectAttributes redirectAttributes) {
+        ShoppingChart shoppingChart = shoppingChartService.getShoppingChartById(shoppingChartId);
+        long productId = shoppingChart.getProductId();
         shoppingChartService.delete(shoppingChartId);
-        redirectAttributes.addFlashAttribute("userId",userId);
-        LOG.info("user:"+userId+" just delete:"+productId);
+        redirectAttributes.addFlashAttribute("userId", userId);
+        LOG.info("user:" + userId + " just delete:" + productId);
         return "redirect:/shoppingChartList";
     }
 
     //最小值为1
     @RequestMapping("/decreaseAmount")
-    public String decreaseAmount(long shoppingChartId,RedirectAttributes redirectAttributes){
-        ShoppingChart shoppingChart=shoppingChartService.getShoppingChartById(shoppingChartId);
-        int amount=shoppingChart.getAmount();
-        if(amount>1){
-            shoppingChart.setAmount(amount-1);
+    public String decreaseAmount(long shoppingChartId, RedirectAttributes redirectAttributes) {
+        ShoppingChart shoppingChart = shoppingChartService.getShoppingChartById(shoppingChartId);
+        int amount = shoppingChart.getAmount();
+        if (amount > 1) {
+            shoppingChart.setAmount(amount - 1);
             shoppingChartService.save(shoppingChart);
         }
-        redirectAttributes.addFlashAttribute("userId",shoppingChart.getUserId());
-        LOG.info("user:"+shoppingChart.getUserId()+" decrease the amount of "+shoppingChart.getProductId());
+        redirectAttributes.addFlashAttribute("userId", shoppingChart.getUserId());
+        LOG.info("user:" + shoppingChart.getUserId() + " decrease the amount of " + shoppingChart.getProductId());
         return "redirect:/shoppingChartList";
 
     }
 
     //最大值为stock
     @RequestMapping("/increaseAmount")
-    public String increaseAmount(long shoppingChartId,RedirectAttributes redirectAttributes){
-        ShoppingChart shoppingChart=shoppingChartService.getShoppingChartById(shoppingChartId);
-        int amount=shoppingChart.getAmount();
-        int stock=productService.findProductById(shoppingChart.getProductId()).getStock();
-        if(amount<stock)
-        {
-            shoppingChart.setAmount(amount+1);
+    public String increaseAmount(long shoppingChartId, RedirectAttributes redirectAttributes) {
+        ShoppingChart shoppingChart = shoppingChartService.getShoppingChartById(shoppingChartId);
+        int amount = shoppingChart.getAmount();
+        int stock = productService.findProductById(shoppingChart.getProductId()).getStock();
+        if (amount < stock) {
+            shoppingChart.setAmount(amount + 1);
             shoppingChartService.save(shoppingChart);
         }
-        redirectAttributes.addFlashAttribute("userId",shoppingChart.getUserId());
-        LOG.info("user: "+shoppingChart.getUserId()+" just increase the amount of "+shoppingChart.getProductId());
+        redirectAttributes.addFlashAttribute("userId", shoppingChart.getUserId());
+        LOG.info("user: " + shoppingChart.getUserId() + " just increase the amount of " + shoppingChart.getProductId());
         return "redirect:/shoppingChartList";
     }
 

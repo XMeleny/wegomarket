@@ -6750,7 +6750,7 @@ button.close {
 @media print {
   .visible-print-inline-block {
     display: inline-block !important;
-  }
+  }S
 }
 @media print {
   .hidden-print {
@@ -6758,3 +6758,8 @@ button.close {
   }
 }
 /*# sourceMappingURL=bootstrap.css.map */
+
+#page-table-recommend-color{
+  background-color:lightblue ;
+  font-weight: bold;
+}
